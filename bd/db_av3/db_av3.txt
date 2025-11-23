@@ -1,0 +1,136 @@
+-- Criação do Banco de dados
+CREATE DATABASE [db_av3];
+GO
+
+USE [db_av3];
+GO
+
+/****** Object:  Table [dbo].[tb_clientes]    Script Date: 22/11/2025 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_clientes](
+    [cpf]				[varchar](12)	NOT NULL,
+    [nome]				[varchar](100)	NOT NULL,
+    [numHabilitacao]	[varchar](9)	NOT NULL,
+    [dataNasc]			[date]			NOT NULL,
+    [logradouro]		[varchar](100)	NOT NULL,
+    [numero]			[int]			NOT NULL,
+    [cep]				[varchar](9)	NOT NULL,
+    [cidade]			[varchar](100)	NOT NULL,
+	PRIMARY KEY CLUSTERED (
+		[cpf] ASC
+	) 
+	ON [PRIMARY]
+) 
+ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[tb_categorias]    Script Date: 22/11/2025 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_categorias](
+    [id]			[bigint] IDENTITY(1,1)	NOT NULL,
+    [nome]			[varchar](100)			NOT NULL,
+    [valorDiaria]	[decimal](10,2)			NOT NULL,
+	PRIMARY KEY CLUSTERED (
+		[id] ASC
+	) 
+	ON [PRIMARY]
+) 
+ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[tb_carros]    Script Date: 22/11/2025 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_carros](
+    [placa]			[varchar](10)	NOT NULL,
+    [marca]			[varchar](100)	NOT NULL,
+    [modelo]		[varchar](100)	NOT NULL,
+    [cor]			[varchar](50)	NOT NULL,
+    [ano]			[int]			NOT NULL,
+    [combustivel]	[varchar](10)	NOT NULL,
+    [kmRodando]		[decimal](10,2)	NOT NULL,
+    [cambio]		[varchar](8)	NOT NULL,
+    [status]		[varchar](10)	NOT NULL, -- status possíveis: DISPONIVEL, ALUGADO, REPARANDO.
+    [categoriaId]	[bigint]		NOT NULL,
+	PRIMARY KEY CLUSTERED(
+		[placa] ASC
+	) 
+	ON [PRIMARY],
+	FOREIGN KEY ([categoriaId]) REFERENCES [dbo].[tb_categorias]([id])
+) 
+ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[tb_locacoes]    Script Date: 22/11/2025 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_locacoes](
+    [id]				[bigint] IDENTITY(1,1)	NOT NULL,
+    [carroPlaca]		[varchar](10)			NOT NULL,
+    [clienteCpf]		[varchar](12)			NOT NULL,
+    [dataRetirada]		[date]					NOT NULL,
+    [diasAlugado]		[int]					NOT NULL,
+    [dataDevolucao]		[date]					NOT NULL,
+    [litrosFaltando]	[decimal](10,2)			NULL,
+    [valorTotal]		[decimal](10,2)			NOT NULL,
+	PRIMARY KEY CLUSTERED(
+		[id] ASC
+	)
+	ON [PRIMARY],
+	FOREIGN KEY ([carroPlaca]) REFERENCES [dbo].[tb_carros]([placa]),
+	FOREIGN KEY ([clienteCpf]) REFERENCES [dbo].[tb_clientes]([cpf])
+)
+ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[tb_reparos]    Script Date: 22/11/2025 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_reparos](
+    [id]				[bigint] IDENTITY(1,1)	NOT NULL,
+    [carroPlaca]		[varchar](10)			NOT NULL,
+    [dataEntrada]		[date]					NOT NULL,
+    [diasReparo]		[int]					NOT NULL,
+    [descricaoProblema] [varchar](255)			NOT NULL,
+    [valorReparo]		[decimal](10,2)			NOT NULL,
+    [dataConclusao]		[date]					NOT NULL,
+	PRIMARY KEY CLUSTERED(
+		[id] ASC
+	)
+	ON [PRIMARY],
+	FOREIGN KEY ([carroPlaca]) REFERENCES [dbo].[tb_carros]([placa])
+)
+ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[tb_historico_locacao]    Script Date: 22/11/2025 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_historico_locacao](
+    [id]			[bigint] IDENTITY(1,1)	NOT NULL,
+    [clienteCpf]	[varchar](12)			NOT NULL,
+    [locacaoId]		[bigint]				NOT NULL,
+    [dataLocacao]	[date]					NOT NULL,
+	PRIMARY KEY CLUSTERED(
+		[id] ASC
+	)
+	ON [PRIMARY],
+	FOREIGN KEY ([clienteCpf]) REFERENCES [dbo].[tb_clientes]([cpf]),
+	FOREIGN KEY ([locacaoId]) REFERENCES [dbo].[tb_locacoes]([id])
+) 
+ON [PRIMARY]
+GO
