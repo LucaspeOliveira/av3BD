@@ -11,7 +11,5 @@ public class ControllerMain {
 		return "index";
 	}
 	
-	/*
-	 * O '@GetMapping' do menu inicial 
-	 */
+	
 }
