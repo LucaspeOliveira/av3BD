@@ -7,9 +7,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+@Repository
 public interface RepositoryCarro extends JpaRepository<Carro, String>{
-
-	@Query("SELECT c FROM carros c WHERE c.status = :status")
-	List<Carro> listarCarroPorStatus(@Param("status") String status);
 	
+	// UDF com cursor para listar disponíveis
+	@Query(value = "SELECT * FROM dbo.fn.ListarCarrosDisponiveis()", nativeQuery = true)
+	List<Carro> listarCarrosDisponiveis();
+	
+	// Fazer busca por categoria
+    @Query(value = "SELECT * FROM tb_carros WHERE categoriaId = :categoriaId", nativeQuery = true)
+    List<Carro> listarCarrosPorCategoria(@Param("categoriaId") Long categoriaID);
+    
+
 }
