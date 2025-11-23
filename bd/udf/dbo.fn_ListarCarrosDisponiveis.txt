@@ -1,0 +1,31 @@
+CREATE FUNCTION dbo.fn_ListarCarrosDisponiveis()
+RETURNS @Carros TABLE (
+    placa VARCHAR(10),
+    marca VARCHAR(100),
+    modelo VARCHAR(100),
+    categoriaId BIGINT
+)
+AS
+BEGIN
+    DECLARE @placa VARCHAR(10), @marca VARCHAR(100), @modelo VARCHAR(100), @categoria BIGINT;
+
+    DECLARE c CURSOR FOR
+        SELECT placa, marca, modelo, categoriaId
+        FROM dbo.tb_carros
+        WHERE status = 'DISPONIVEL';
+
+    OPEN c;
+    FETCH NEXT FROM c INTO @placa, @marca, @modelo, @categoria;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        INSERT INTO @Carros (placa, marca, modelo, categoriaId)
+        VALUES (@placa, @marca, @modelo, @categoria);
+
+        FETCH NEXT FROM c INTO @placa, @marca, @modelo, @categoria;
+    END
+
+    CLOSE c; DEALLOCATE c;
+    RETURN;
+END;
+GO
