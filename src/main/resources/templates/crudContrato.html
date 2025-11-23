@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Contratos</title>
+    <link rel="stylesheet" href="stlye.css">
+</head>
+<body>
+    <button id="voltar" class="btn-voltar">↩</button>
+    <h1>Crud de Contratos</h1>
+
+    <div class="form">
+        <input type="number" id="cpf" placeholder="CPF">
+        <input type="text" id="nome" placeholder="Nome">
+        <input type="number" id="numhabilitação" placeholder="NumHabilitação">
+        <input type="text" id="endereço" placeholder="Endereço">
+        <input type="number" id="numendereço" placeholder="Num do endereço">
+        <input type="number" id="cep" placeholder="Cep">
+        <input type="text" list="categorias" id="categoria" placeholder="Categoria">
+        <input type="text" id="diasaluguel" placeholder="Dias de aluguel">
+        <input type="text" list="listaCarros" id="carrosdispo" placeholder="Carros disponíveis">
+        <input type="text" id="valorestimado" placeholder="Valor estimado">
+
+        <datalist id="listaCarros">
+            <option value="Corsa">
+            <option value="Onix">
+            <option value="Fiesta">
+            <option value="Corolla">
+            <option value="Civic">
+        </datalist>
+
+        <datalist id="categorias">
+            <option value="A">
+            <option value="B">
+            <option value="C">
+            <option value="D">
+            <option value="E">
+        </datalist>
+
+    </div>
+
+
+    <div class="acao">
+        <button id="Inserir">Inserir</button>
+        <button id="editar">Editar</button>
+        <button id="adicionar">Adicionar</button>
+        <button id="remover">Remover</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>CPF</th>
+                <th>Nome</th>
+                <th>NumHabilitação</th>
+                <th>Endereço</th>
+                <th>Num do endereço</th>
+                <th>Cep</th>
+                <th>Categoria</th>
+                <th>Dias de aluguel</th>
+                <th>Carros disponíveis</th>
+                <th>Valor estimado</th>
+            </tr>
+        </thead>
+        <tbody id="crud-contratos">
+        </tbody>
+    </table>
+</body>
+</html>

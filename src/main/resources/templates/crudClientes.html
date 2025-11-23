@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Careca</title>
+    <title>CRUD Clientes</title>
     <link rel="stylesheet" href="stlye.css">
 </head>
 <body>
     <button id="voltar" class="btn-voltar">↩</button>
-    <h1>Crud de Categoria</h1>
+    <h1>Crud de Clientes</h1>
 
     <div class="form">
+        <input type="number" id="cpf" placeholder="CPF">
         <input type="text" id="nome" placeholder="Nome">
-        <input type="text" id="valor" placeholder="Valor">
+        <input type="number" id="numhabilitação" placeholder="NumHabilitação">
+        <input type="text" id="endereço" placeholder="Endereço">
+        <input type="number" id="numendereço" placeholder="Num do endereço">
+        <input type="number" id="cep" placeholder="Cep">
+        <input type="text" id="estado" placeholder="Estado">
     </div>
-
-
     <div class="acao">
         <button id="Inserir">Inserir</button>
         <button id="editar">Editar</button>
@@ -25,11 +28,16 @@
     <table>
         <thead>
             <tr>
+                <th>CPF</th>
                 <th>Nome</th>
-                <th>Valor</th>
+                <th>NumHabilitação</th>
+                <th>Endereço</th>
+                <th>Num do endereço</th>
+                <th>Cep</th>
+                <th>Estado</th>
             </tr>
         </thead>
-        <tbody id="crudCategoria">
+        <tbody id="crud-clientes">
         </tbody>
     </table>
 </body>

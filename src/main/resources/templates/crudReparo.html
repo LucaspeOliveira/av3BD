@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Reparos</title>
+    <link rel="stylesheet" href="stlye.css">
+</head>
+<body>
+    <button id="voltar" class="btn-voltar">↩</button>
+    <h1>Crud de Reparos</h1>
+
+    <div class="form">
+        <input type="number" id="placa" placeholder="Placa">
+        <input type="text" id="diaEntrada" placeholder="Dia da Entrada">
+        <input type="number" id="qntsDias" placeholder="Quantos dias">
+        <input type="text" id="valor" placeholder="Valor">
+
+        <textarea id="comentario" placeholder="Comentários sobre o reparo"></textarea>
+    </div>
+
+
+    <div class="acao">
+        <button id="Inserir">Inserir</button>
+        <button id="editar">Editar</button>
+        <button id="adicionar">Adicionar</button>
+        <button id="remover">Remover</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Dia da Entrada</th>
+                <th>Quantos dias</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody id="crud-reparos">
+        </tbody>
+    </table>
+</body>
+</html>

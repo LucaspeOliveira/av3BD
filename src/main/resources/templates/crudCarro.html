@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Carros</title>
+    <link rel="stylesheet" href="stlye.css">
+</head>
+<body>
+    <button id="voltar" class="btn-voltar">↩</button>
+    <h1>CRUD de Carros</h1>
+
+    <div class="form">
+        <input type="text" id="placa" placeholder="Placa">
+        <input type="text" id="marca" placeholder="Marca">
+        <input type="text" id="modelo" placeholder="Modelo">
+        <input type="number" id="ano" placeholder="Ano">
+        <input type="text" id="cor" placeholder="Cor">
+        <input type="text" id="categoria" placeholder="Categoria">
+        <input type="text" id="combustivel" placeholder="Combustível">
+        <input type="text" id="km" placeholder="Quilometragem">
+        <input type="text" id="cambio" placeholder="Cambio">
+        <input type="text" id="status" placeholder="Status">
+    </div>
+    <div class="acao">
+        <button onclick="inserirCarro()">Inserir</button>
+        <button id="editar">Editar</button>
+        <button id="adicionar">Adicionar</button>
+        <button id="remover">Remover</button>
+        <button id="lista-dispo">Lista disponível</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Ano</th>
+                <th>Cor</th>
+                <th>Categoria</th>
+                <th>Quilometragem</th>
+                <th>Cambio</th>
+                <th>Status</th>
+                <th>Combustível</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-carros">
+
+        </tbody>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>
