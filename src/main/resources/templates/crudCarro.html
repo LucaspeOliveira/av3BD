@@ -73,9 +73,9 @@
                                     <span class="helper-text red-text" th:if="${#fields.hasErrors('combustivel')}" th:errors="*{combustivel}"></span>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="kmRodando" type="number" step="0.1" min="0" th:field="*{kmRodando}" class="validate" required>
-                                    <label for="kmRodando">Quilometragem</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('kmRodando')}" th:errors="*{kmRodando}"></span>
+                                    <input id="kmRodados" type="number" step="0.1" min="0" th:field="*{kmRodados}" class="validate" required>
+                                    <label for="kmRodados">Quilometragem</label>
+                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('kmRodados')}" th:errors="*{kmRodado}"></span>
                                 </div>
                                 <div class="input-field col s12 m6">
                                     <input id="cambio" type="text" th:field="*{cambio}" class="validate" required>
@@ -138,17 +138,19 @@
                             <td th:text="${carro.ano}"></td>
                             <td th:text="${carro.cor}"></td>
                             <td th:text="${carro.categoriaNome}"></td>
-                            <td th:text="${carro.kmRodando}"></td>
+                            <td th:text="${carro.kmRodados}"></td>
                             <td th:text="${carro.cambio}"></td>
                             <td th:text="${carro.status}"></td>
                             <td th:text="${carro.combustivel}"></td>
                             <td>
                                 <div class="row">
                                     <div class="col s6">
-                                        <form th:action="@{/carros/update}" method="post" th:object="${carro}">
-                                            <input type="hidden" th:field="*{placa}">
-                                            <button class="waves-effect waves-light btn-small" type="submit"><i class="material-icons">edit</i></button>
-                                        </form>
+                                    	<form th:action="@{/carros/update}" method="post">
+    										<input type="hidden" name="placa" th:value="${carro.placa}">
+    										<button class="waves-effect waves-light btn-small" type="submit">
+        									<i class="material-icons">edit</i>
+    										</button>
+										</form>
                                     </div>
                                     <div class="col s6">
                                         <form th:action="@{/carros/delete}" method="post">

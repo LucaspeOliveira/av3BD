@@ -1,13 +1,7 @@
 package br.edu.com.fateczl.av3LabBD.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CarroDTO {
     private String placa;
     private String marca;
@@ -18,5 +12,41 @@ public class CarroDTO {
     private BigDecimal kmRodados;
     private String cambio;
     private String status;
-    private Long categoriaId;
+
+    private Long categoriaId;     // usado no formulário
+    private String categoriaNome; // usado na listagem
+
+    // Getters e Setters
+    public String getPlaca() { return placa; }
+    public void setPlaca(String placa) { this.placa = placa; }
+
+    public String getMarca() { return marca; }
+    public void setMarca(String marca) { this.marca = marca; }
+
+    public String getModelo() { return modelo; }
+    public void setModelo(String modelo) { this.modelo = modelo; }
+
+    public String getCor() { return cor; }
+    public void setCor(String cor) { this.cor = cor; }
+
+    public int getAno() { return ano; }
+    public void setAno(int ano) { this.ano = ano; }
+
+    public String getCombustivel() { return combustivel; }
+    public void setCombustivel(String combustivel) { this.combustivel = combustivel; }
+
+    public BigDecimal getKmRodados() { return kmRodados; }
+    public void setKmRodados(BigDecimal kmRodados) { this.kmRodados = kmRodados; }
+
+    public String getCambio() { return cambio; }
+    public void setCambio(String cambio) { this.cambio = cambio; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public Long getCategoriaId() { return categoriaId; }
+    public void setCategoriaId(Long categoriaId) { this.categoriaId = categoriaId; }
+
+    public String getCategoriaNome() { return categoriaNome; }
+    public void setCategoriaNome(String categoriaNome) { this.categoriaNome = categoriaNome; }
 }
