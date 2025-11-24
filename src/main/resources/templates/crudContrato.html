@@ -1,69 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD Contratos</title>
-    <link rel="stylesheet" href="stlye.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <button id="voltar" class="btn-voltar">↩</button>
-    <h1>Crud de Contratos</h1>
+    <header>
+        <nav class="blue darken-2">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">Contratos</a>
+                <ul class="right hide-on-med-and-down"><li><a th:href="@{/}">Menu</a></li></ul>
+            </div>
+        </nav>
+    </header>
 
-    <div class="form">
-        <input type="number" id="cpf" placeholder="CPF">
-        <input type="text" id="nome" placeholder="Nome">
-        <input type="number" id="numhabilitação" placeholder="NumHabilitação">
-        <input type="text" id="endereço" placeholder="Endereço">
-        <input type="number" id="numendereço" placeholder="Num do endereço">
-        <input type="number" id="cep" placeholder="Cep">
-        <input type="text" list="categorias" id="categoria" placeholder="Categoria">
-        <input type="text" id="diasaluguel" placeholder="Dias de aluguel">
-        <input type="text" list="listaCarros" id="carrosdispo" placeholder="Carros disponíveis">
-        <input type="text" id="valorestimado" placeholder="Valor estimado">
+    <main class="container section">
+        <a id="voltar" class="btn-flat blue-text text-darken-2" th:href="@{/}"><i class="material-icons left">arrow_back</i>Voltar</a>
+        <h4>CRUD de Contratos</h4>
 
-        <datalist id="listaCarros">
-            <option value="Corsa">
-            <option value="Onix">
-            <option value="Fiesta">
-            <option value="Corolla">
-            <option value="Civic">
-        </datalist>
+        <div class="card"><div class="card-content">
+            <div class="row">
+                <div class="input-field col s12 m4"><input id="cpf" type="number"><label for="cpf" class="active">CPF</label></div>
+                <div class="input-field col s12 m4"><input id="nome" type="text"><label for="nome" class="active">Nome</label></div>
+                <div class="input-field col s12 m4"><input id="numhabilitacao" type="number"><label for="numhabilitacao" class="active">Num Habilitação</label></div>
+                <div class="input-field col s12 m6"><input id="endereco" type="text"><label for="endereco" class="active">Endereço</label></div>
+                <div class="input-field col s12 m3"><input id="numendereco" type="number"><label for="numendereco" class="active">Número</label></div>
+                <div class="input-field col s12 m3"><input id="cep" type="number"><label for="cep" class="active">CEP</label></div>
+                <div class="input-field col s12 m4"><input id="categoria" list="categorias"><label for="categoria" class="active">Categoria</label></div>
+                <div class="input-field col s12 m4"><input id="diasaluguel" type="number"><label for="diasaluguel" class="active">Dias de aluguel</label></div>
+                <div class="input-field col s12 m4"><input id="carrosdispo" list="listaCarros"><label for="carrosdispo" class="active">Carros disponíveis</label></div>
+                <div class="input-field col s12 m6"><input id="valorestimado" type="text"><label for="valorestimado" class="active">Valor estimado</label></div>
+            </div>
 
-        <datalist id="categorias">
-            <option value="A">
-            <option value="B">
-            <option value="C">
-            <option value="D">
-            <option value="E">
-        </datalist>
+            <datalist id="listaCarros"><option value="Corsa"><option value="Onix"><option value="Fiesta"><option value="Corolla"><option value="Civic"></datalist>
+            <datalist id="categorias"><option value="A"><option value="B"><option value="C"><option value="D"><option value="E"></datalist>
 
-    </div>
+            <div class="right-align">
+                <button id="Inserir" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Inserir</button>
+                <button id="editar" class="waves-effect waves-light btn">Editar</button>
+                <button id="adicionar" class="waves-effect waves-light btn">Adicionar</button>
+                <button id="remover" class="waves-effect waves-light btn red">Remover</button>
+            </div>
+        </div></div>
 
+        <table class="striped highlight responsive-table">
+            <thead>
+                <tr>
+                    <th>CPF</th>
+                    <th>Nome</th>
+                    <th>NumHabilitação</th>
+                    <th>Endereço</th>
+                    <th>Num do endereço</th>
+                    <th>Cep</th>
+                    <th>Categoria</th>
+                    <th>Dias de aluguel</th>
+                    <th>Carros disponíveis</th>
+                    <th>Valor estimado</th>
+                </tr>
+            </thead>
+            <tbody id="crud-contratos"></tbody>
+        </table>
+    </main>
 
-    <div class="acao">
-        <button id="Inserir">Inserir</button>
-        <button id="editar">Editar</button>
-        <button id="adicionar">Adicionar</button>
-        <button id="remover">Remover</button>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>CPF</th>
-                <th>Nome</th>
-                <th>NumHabilitação</th>
-                <th>Endereço</th>
-                <th>Num do endereço</th>
-                <th>Cep</th>
-                <th>Categoria</th>
-                <th>Dias de aluguel</th>
-                <th>Carros disponíveis</th>
-                <th>Valor estimado</th>
-            </tr>
-        </thead>
-        <tbody id="crud-contratos">
-        </tbody>
-    </table>
+    <footer class="page-footer blue darken-2"><div class="container"><div class="row"><div class="col s12 white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</div></div></div></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

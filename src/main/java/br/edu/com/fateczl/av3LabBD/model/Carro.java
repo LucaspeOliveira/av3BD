@@ -1,5 +1,6 @@
 package br.edu.com.fateczl.av3LabBD.model;
 
+import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,35 +19,36 @@ import lombok.NoArgsConstructor;
 public class Carro {
 
     @Id
-    @Column(length = 10) 
+    @Column(name = "placa", length = 10, nullable = false)
     private String placa;
 
-    @Column(nullable = false)
+    @Column(name = "marca", length = 100, nullable = false)
     private String marca;
 
-    @Column(nullable = false)
+    @Column(name = "modelo", length = 100, nullable = false)
     private String modelo;
 
-    @Column(nullable = false)
-    private String status; // DISPONIVEL, ALUGADO, etc.
-    
-    @Column(nullable = false)
-    private int ano;
-    
-    @Column(nullable = false)
+    @Column(name = "cor", length = 50, nullable = false)
     private String cor;
-    
-    @Column(nullable = false)
+
+    @Column(name = "ano", nullable = false)
+    private int ano;
+
+    @Column(name = "combustivel", length = 10, nullable = false)
     private String combustivel;
-    
-    @Column(nullable = false)
-    private double kmRodando;
-    
-    @Column(nullable = false)
+
+    @Column(name = "km_rodados", precision = 10, scale = 2, nullable = false)
+    private BigDecimal kmRodados;
+
+    @Column(name = "cambio", length = 8, nullable = false)
     private String cambio;
 
+    @Column(name = "status", length = 10, nullable = false)
+    private String status;
+
     @ManyToOne
-    @JoinColumn(name = "categoriaId", nullable = false)
-    private Categoria categoria; // relacionamento com tabela de categorias
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
 }
+
     

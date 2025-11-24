@@ -1,31 +1,50 @@
 CREATE FUNCTION dbo.fn_ListarCarrosDisponiveis()
 RETURNS @Carros TABLE (
-    placa VARCHAR(10),
-    marca VARCHAR(100),
-    modelo VARCHAR(100),
-    categoriaId BIGINT
+    placa          VARCHAR(10),
+    marca          VARCHAR(100),
+    modelo         VARCHAR(100),
+    cor            VARCHAR(50),
+    ano            INT,
+    combustivel    VARCHAR(10),
+    km_rodados     DECIMAL(10,2),
+    cambio         VARCHAR(8),
+    status         VARCHAR(10),
+    categoria_id   BIGINT
 )
 AS
 BEGIN
-    DECLARE @placa VARCHAR(10), @marca VARCHAR(100), @modelo VARCHAR(100), @categoria BIGINT;
+    DECLARE 
+        @placa VARCHAR(10),
+        @marca VARCHAR(100),
+        @modelo VARCHAR(100),
+        @cor VARCHAR(50),
+        @ano INT,
+        @combustivel VARCHAR(10),
+        @km DECIMAL(10,2),
+        @cambio VARCHAR(8),
+        @status VARCHAR(10),
+        @categoria BIGINT;
 
     DECLARE c CURSOR FOR
-        SELECT placa, marca, modelo, categoriaId
+        SELECT placa, marca, modelo, cor, ano, combustivel,
+               km_rodados, cambio, status, categoria_id
         FROM dbo.tb_carros
         WHERE status = 'DISPONIVEL';
 
     OPEN c;
-    FETCH NEXT FROM c INTO @placa, @marca, @modelo, @categoria;
+    FETCH NEXT FROM c INTO @placa, @marca, @modelo, @cor, @ano, @combustivel, @km, @cambio, @status, @categoria;
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        INSERT INTO @Carros (placa, marca, modelo, categoriaId)
-        VALUES (@placa, @marca, @modelo, @categoria);
+        INSERT INTO @Carros (placa, marca, modelo, cor, ano, combustivel, km_rodados, cambio, status, categoria_id)
+        VALUES (@placa, @marca, @modelo, @cor, @ano, @combustivel, @km, @cambio, @status, @categoria);
 
-        FETCH NEXT FROM c INTO @placa, @marca, @modelo, @categoria;
+        FETCH NEXT FROM c INTO @placa, @marca, @modelo, @cor, @ano, @combustivel, @km, @cambio, @status, @categoria;
     END
 
-    CLOSE c; DEALLOCATE c;
+    CLOSE c;
+    DEALLOCATE c;
+
     RETURN;
 END;
 GO

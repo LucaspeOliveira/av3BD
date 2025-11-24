@@ -1,0 +1,106 @@
+/* Estilos personalizados para o projeto - Materialize base */
+
+/* Importa fonte e define layout básico: corpo usa flex para manter o footer no fim da página */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial;
+  background: linear-gradient(180deg,#f7fbff 0%, #f5f7fa 100%);
+  color: #172b4d;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.2px;
+}
+
+main.container {
+  padding-top: 28px;
+  padding-bottom: 28px;
+  flex: 1 0 auto; /* permite que o main expanda para empurrar o footer para baixo */
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(23, 43, 77, 0.08);
+}
+
+.input-field input[type="text"],
+.input-field input[type="number"],
+.input-field textarea,
+.input-field select {
+  background: #fff;
+  border-radius: 6px;
+  padding-left: 12px;
+}
+
+.btn, .btn-small {
+  border-radius: 8px;
+  text-transform: none;
+}
+
+.table thead th, table td {
+  padding: 12px 8px;
+}
+
+/* Melhor aparência para ações dentro de cards */
+.card .card-action .btn { margin-right: 8px; }
+
+/* Melhor comportamento para tabelas largas */
+.responsive-table { overflow-x: auto; display: block; }
+
+/* Voltar botão discreto */
+.btn-flat.blue-text {
+  margin-bottom: 12px;
+}
+
+/* Responsividade para tabelas */
+@media only screen and (max-width: 600px) {
+  .brand-logo { font-size: 1rem; }
+  table th, table td { font-size: 12px; }
+}
+
+
+/* Pequenos ajustes visuais */
+.card .card-content .card-title {
+  margin-bottom: 8px;
+}
+
+.right-align { margin-top: 8px; }
+
+/* Footer fixo no final da viewport */
+.page-footer {
+  margin-top: 24px;
+  flex-shrink: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* Footer discreto */
+.page-footer .container { display:flex; align-items:center; justify-content:space-between; }
+.page-footer .white-text { font-size: 0.95rem; opacity: 0.95; }
+
+.container { width: 95%; }
+
+/* Hero card (apenas índice) */
+.hero { padding: 28px 18px; border-radius: 12px; }
+.hero .card-title { font-size: 1.4rem; font-weight:700; }
+
+
+/* Tipografia e espaçamento para cabeçalhos */
+h4 { margin-top: 8px; margin-bottom: 16px; }
+
+/* Responsividade */
+@media only screen and (max-width: 600px) {
+  .brand-logo { font-size: 1rem; }
+  table th, table td { font-size: 12px; }
+  main.container { padding-left: 12px; padding-right: 12px; }
+}

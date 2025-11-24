@@ -5,17 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MENU</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
-    <h1>Sistema aluguel de carro</h1>
-    <button class="btn" th:onclick="|window.location.href='@{/carros}'|">CRUD carro</button>
-    <button class="btn">CRUD contrato</button>
-    <button class="btn">CRUD pessoa</button>
-    <button class="btn">CRUD categoria</button>
-    <button class="btn">CRUD histórico</button>
-    <button class="btn">CRUD reparo</button>
+    <header>
+        <nav class="blue darken-2">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">Aluguel de Carros</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a th:href="@{/carros}">Carros</a></li>
+                    <li><a th:href="@{/categoria}">Categorias</a></li>
+                    <li><a th:href="@{/clientes}">Clientes</a></li>
+                    <li><a th:href="@{/contratos}">Contratos</a></li>
+                    <li><a th:href="@{/historico}">Histórico</a></li>
+                    <li><a th:href="@{/reparos}">Reparos</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container section">
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Sistema de Aluguel de Carros</span>
+                        <p>Bem-vindo! Escolha uma das opções abaixo para gerenciar o sistema.</p>
+                    </div>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light btn" th:href="@{/carros}">CRUD Carro</a>
+                        <a class="waves-effect waves-light btn" th:href="@{/contratos}">CRUD Contrato</a>
+                        <a class="waves-effect waves-light btn" th:href="@{/clientes}">CRUD Pessoa</a>
+                        <a class="waves-effect waves-light btn" th:href="@{/categoria}">CRUD Categoria</a>
+                        <a class="waves-effect waves-light btn" th:href="@{/historico}">CRUD Histórico</a>
+                        <a class="waves-effect waves-light btn" th:href="@{/reparos}">CRUD Reparo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="page-footer blue darken-2">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <span class="white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
 </body>
 
 </html>

@@ -11,14 +11,14 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[tb_clientes](
-    [cpf]				[varchar](12)	NOT NULL,
-    [nome]				[varchar](100)	NOT NULL,
-    [numHabilitacao]	[varchar](9)	NOT NULL,
-    [dataNasc]			[date]			NOT NULL,
-    [logradouro]		[varchar](100)	NOT NULL,
-    [numero]			[int]			NOT NULL,
-    [cep]				[varchar](9)	NOT NULL,
-    [cidade]			[varchar](100)	NOT NULL,
+    [cpf]					[varchar](12)	NOT NULL,
+    [nome]					[varchar](100)	NOT NULL,
+    [numero_habilitacao]	[varchar](9)	NOT NULL,
+    [data_nascimento]		[date]			NOT NULL,
+    [logradouro]			[varchar](100)	NOT NULL,
+    [numero]				[int]			NOT NULL,
+    [cep]					[varchar](9)	NOT NULL,
+    [cidade]				[varchar](100)	NOT NULL,
 	PRIMARY KEY CLUSTERED (
 		[cpf] ASC
 	) 
@@ -35,7 +35,7 @@ GO
 CREATE TABLE [dbo].[tb_categorias](
     [id]			[bigint] IDENTITY(1,1)	NOT NULL,
     [nome]			[varchar](100)			NOT NULL,
-    [valorDiaria]	[decimal](10,2)			NOT NULL,
+    [valor_diaria]	[decimal](10,2)			NOT NULL,
 	PRIMARY KEY CLUSTERED (
 		[id] ASC
 	) 
@@ -56,15 +56,15 @@ CREATE TABLE [dbo].[tb_carros](
     [cor]			[varchar](50)	NOT NULL,
     [ano]			[int]			NOT NULL,
     [combustivel]	[varchar](10)	NOT NULL,
-    [kmRodando]		[decimal](10,2)	NOT NULL,
+    [km_rodados]	[decimal](10,2)	NOT NULL,
     [cambio]		[varchar](8)	NOT NULL,
     [status]		[varchar](10)	NOT NULL, -- status possíveis: DISPONIVEL, ALUGADO, REPARANDO.
-    [categoriaId]	[bigint]		NOT NULL,
+    [categoria_id]	[bigint]		NOT NULL,
 	PRIMARY KEY CLUSTERED(
 		[placa] ASC
 	) 
 	ON [PRIMARY],
-	FOREIGN KEY ([categoriaId]) REFERENCES [dbo].[tb_categorias]([id])
+	FOREIGN KEY ([categoria_id]) REFERENCES [dbo].[tb_categorias]([id])
 ) 
 ON [PRIMARY]
 GO
@@ -76,19 +76,19 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[tb_locacoes](
     [id]				[bigint] IDENTITY(1,1)	NOT NULL,
-    [carroPlaca]		[varchar](10)			NOT NULL,
-    [clienteCpf]		[varchar](12)			NOT NULL,
-    [dataRetirada]		[date]					NOT NULL,
-    [diasAlugado]		[int]					NOT NULL,
-    [dataDevolucao]		[date]					NOT NULL,
-    [litrosFaltando]	[decimal](10,2)			NULL,
-    [valorTotal]		[decimal](10,2)			NOT NULL,
+    [carro_placa]		[varchar](10)			NOT NULL,
+    [cliente_cpf]		[varchar](12)			NOT NULL,
+    [data_retirada]		[date]					NOT NULL,
+    [dias_alugado]		[int]					NOT NULL,
+    [data_devolucao]	[date]					NOT NULL,
+    [tanque]			[varchar](8)			NOT NULL,
+    [valor_total]		[decimal](10,2)			NOT NULL,
 	PRIMARY KEY CLUSTERED(
 		[id] ASC
 	)
 	ON [PRIMARY],
-	FOREIGN KEY ([carroPlaca]) REFERENCES [dbo].[tb_carros]([placa]),
-	FOREIGN KEY ([clienteCpf]) REFERENCES [dbo].[tb_clientes]([cpf])
+	FOREIGN KEY ([carro_placa]) REFERENCES [dbo].[tb_carros]([placa]),
+	FOREIGN KEY ([cliente_cpf]) REFERENCES [dbo].[tb_clientes]([cpf])
 )
 ON [PRIMARY]
 GO
@@ -100,17 +100,17 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[tb_reparos](
     [id]				[bigint] IDENTITY(1,1)	NOT NULL,
-    [carroPlaca]		[varchar](10)			NOT NULL,
-    [dataEntrada]		[date]					NOT NULL,
-    [diasReparo]		[int]					NOT NULL,
-    [descricaoProblema] [varchar](255)			NOT NULL,
-    [valorReparo]		[decimal](10,2)			NOT NULL,
-    [dataConclusao]		[date]					NOT NULL,
+    [carro_placa]		[varchar](10)			NOT NULL,
+    [data_entrada]		[date]					NOT NULL,
+    [dias_reparo]		[int]					NOT NULL,
+    [descricao]			[varchar](255)			NOT NULL,
+    [valor_reparo]		[decimal](10,2)			NOT NULL,
+    [data_conclusao]	[date]					NOT NULL,
 	PRIMARY KEY CLUSTERED(
 		[id] ASC
 	)
 	ON [PRIMARY],
-	FOREIGN KEY ([carroPlaca]) REFERENCES [dbo].[tb_carros]([placa])
+	FOREIGN KEY ([carro_placa]) REFERENCES [dbo].[tb_carros]([placa])
 )
 ON [PRIMARY]
 GO
@@ -122,15 +122,15 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[tb_historico_locacao](
     [id]			[bigint] IDENTITY(1,1)	NOT NULL,
-    [clienteCpf]	[varchar](12)			NOT NULL,
-    [locacaoId]		[bigint]				NOT NULL,
-    [dataLocacao]	[date]					NOT NULL,
+    [cliente_cpf]	[varchar](12)			NOT NULL,
+    [locacao_id]	[bigint]				NOT NULL,
+    [data_locacao]	[date]					NOT NULL,
 	PRIMARY KEY CLUSTERED(
 		[id] ASC
 	)
 	ON [PRIMARY],
-	FOREIGN KEY ([clienteCpf]) REFERENCES [dbo].[tb_clientes]([cpf]),
-	FOREIGN KEY ([locacaoId]) REFERENCES [dbo].[tb_locacoes]([id])
+	FOREIGN KEY ([cliente_cpf]) REFERENCES [dbo].[tb_clientes]([cpf]),
+	FOREIGN KEY ([locacao_id]) REFERENCES [dbo].[tb_locacoes]([id])
 ) 
 ON [PRIMARY]
 GO
