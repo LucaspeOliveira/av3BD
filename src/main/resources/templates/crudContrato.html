@@ -6,7 +6,8 @@
     <title>CRUD Contratos</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Original when using Thymeleaf: <link rel="stylesheet" th:href="@{/css/style.css}"> -->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
     <header>
@@ -41,12 +42,9 @@
 
             <div class="right-align">
                 <button id="Inserir" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Inserir</button>
-                <button id="editar" class="waves-effect waves-light btn">Editar</button>
-                <button id="adicionar" class="waves-effect waves-light btn">Adicionar</button>
-                <button id="remover" class="waves-effect waves-light btn red">Remover</button>
             </div>
         </div></div>
-
+        <h5>Lista de Contratos</h5>
         <table class="striped highlight responsive-table">
             <thead>
                 <tr>
@@ -60,15 +58,52 @@
                     <th>Dias de aluguel</th>
                     <th>Carros disponíveis</th>
                     <th>Valor estimado</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
-            <tbody id="crud-contratos"></tbody>
+            <tbody>
+            <tr th:each="ctr : ${contratos}">
+                <form th:action="@{/contratos/update}" method="post">
+                    <td>
+                        <input type="hidden" name="cpf" th:value="${ctr.cpf}">
+                        <input type="text" th:value="${ctr.cpf}" readonly class="table-input">
+                    </td>
+                    <td><input type="text" name="nome" th:value="${ctr.nome}"></td>
+                    <td><input type="text" name="numeroHabilitacao" th:value="${ctr.numeroHabilitacao}"></td>
+                    <td><input type="text" name="endereco" th:value="${ctr.endereco}"></td>
+                    <td><input type="number" name="numero" th:value="${ctr.numero}"></td>
+                    <td><input type="text" name="cep" th:value="${ctr.cep}"></td>
+                    <td><input type="text" name="categoria" th:value="${ctr.categoria}"></td>
+                    <td><input type="number" name="diasAluguel" th:value="${ctr.diasAluguel}"></td>
+                    <td><input type="text" name="carrosDisponiveis" th:value="${ctr.carrosDisponiveis}"></td>
+                    <td><input type="text" name="valorEstimado" th:value="${ctr.valorEstimado}"></td>
+
+                    <td>
+                        <button class="waves-effect waves-light btn-small" type="submit">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </td>
+                </form>
+
+                <td style="display:none;"></td>
+
+                <td>
+                    <form th:action="@{/contratos/delete}" method="post" style="display:inline;">
+                        <input type="hidden" name="cpf" th:value="${ctr.cpf}">
+                        <button class="waves-effect waves-light btn-small red" type="submit">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
         </table>
     </main>
 
     <footer class="page-footer blue darken-2"><div class="container"><div class="row"><div class="col s12 white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</div></div></div></footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script th:src="@{/js/main.js}"></script>
+    <!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+    <script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 </html>

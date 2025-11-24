@@ -5,6 +5,7 @@
     <title>Histórico de Locações</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header>
@@ -24,7 +25,7 @@
     </a>
     <h4>Histórico de Locações</h4>
 
-    <!-- Tabela de histórico -->
+    
     <h5>Lista de locações encerradas</h5>
     <table class="striped highlight responsive-table">
         <thead>
@@ -37,10 +38,10 @@
         </thead>
         <tbody>
         <tr th:each="h : ${historicos}">
-            <td th:text="${h.id}"></td>
-            <td th:text="${h.clienteCpf}"></td>
-            <td th:text="${h.locacaoId}"></td>
-            <td th:text="${h.dataLocacao}"></td>
+            <td><input type="text" th:value="${h.id}" readonly class="table-input"></td>
+            <td><input type="text" th:value="${h.clienteCpf}" readonly class="table-input"></td>
+            <td><input type="text" th:value="${h.locacaoId}" readonly class="table-input"></td>
+            <td><input type="text" th:value="${h.dataLocacao}" readonly class="table-input"></td>
         </tr>
         </tbody>
     </table>
@@ -60,5 +61,6 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 </html>

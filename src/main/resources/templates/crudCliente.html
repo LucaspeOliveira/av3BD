@@ -6,7 +6,8 @@
     <title>CRUD Cliente</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Original when using Thymeleaf: <link rel="stylesheet" th:href="@{/css/style.css}"> -->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header>
@@ -26,7 +27,7 @@
     </a>
     <h4>CRUD de Cliente</h4>
 
-    <!-- Formulário de inserção -->
+    
     <div class="card">
         <div class="card-content">
             <span class="card-title">Inserir novo cliente</span>
@@ -81,7 +82,7 @@
         </div>
     </div>
 
-    <!-- Tabela de clientes -->
+    
     <h5>Lista de clientes</h5>
     <table class="striped highlight responsive-table">
         <thead>
@@ -99,14 +100,15 @@
         </thead>
         <tbody>
         <tr th:each="cli : ${clientes}">
+            
             <form th:action="@{/clientes/update}" method="post">
-                <!-- CPF como identificador -->
+                
                 <td>
                     <input type="hidden" name="cpf" th:value="${cli.cpf}">
-                    <span th:text="${cli.cpf}"></span>
+                    <input type="text" th:value="${cli.cpf}" readonly class="table-input">
                 </td>
 
-                <!-- Campos editáveis -->
+                
                 <td><input type="text" name="nome" th:value="${cli.nome}"></td>
                 <td><input type="text" name="numeroHabilitacao" th:value="${cli.numeroHabilitacao}"></td>
                 <td><input type="date" name="dataNascimento" th:value="${cli.dataNascimento}"></td>
@@ -115,7 +117,7 @@
                 <td><input type="text" name="cep" th:value="${cli.cep}"></td>
                 <td><input type="text" name="cidade" th:value="${cli.cidade}"></td>
 
-                <!-- Botões -->
+                
                 <td>
                     <button class="waves-effect waves-light btn-small" type="submit">
                         <i class="material-icons">edit</i>
@@ -123,7 +125,9 @@
                 </td>
             </form>
 
-            <!-- Botão de remover -->
+            <td style="display:none;"></td>
+
+            
             <td>
                 <form th:action="@{/clientes/delete}" method="post" style="display:inline;">
                     <input type="hidden" name="cpf" th:value="${cli.cpf}">
@@ -148,6 +152,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script th:src="@{/js/main.js}"></script>
+<!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 </html>

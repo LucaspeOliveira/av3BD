@@ -6,7 +6,7 @@
     <title>CRUD Categoria</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header>
@@ -26,7 +26,7 @@
     </a>
     <h4>CRUD de Categoria</h4>
 
-    <!-- Formulário de inserção -->
+    
     <div class="card">
         <div class="card-content">
             <span class="card-title">Inserir nova categoria</span>
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <!-- Tabela de categorias -->
+    
     <h5>Lista de categorias</h5>
 <table class="striped highlight responsive-table">
     <thead>
@@ -65,27 +65,25 @@
     <tbody>
     <tr th:each="cat : ${categorias}">
         <form th:action="@{/categoria/update}" method="post">
-            <!-- ID oculto para manter a referência -->
             <input type="hidden" name="id" th:value="${cat.id}">
 
-            <!-- Campo editável para nome -->
+            
             <td>
                 <input type="text" name="nome" th:value="${cat.nome}">
             </td>
 
-            <!-- Campo editável para valor da diária -->
+            
             <td>
                 <input type="number" step="0.01" name="valorDiaria" th:value="${cat.valorDiaria}">
             </td>
 
-            <!-- Botões de ação -->
+            
             <td>
-                <!-- Editar -->
+                
                 <button class="waves-effect waves-light btn-small" type="submit">
                     <i class="material-icons">edit</i>
                 </button>
 
-                <!-- Remover -->
                 <form th:action="@{/categoria/delete}" method="post" style="display:inline;">
                     <input type="hidden" name="id" th:value="${cat.id}">
                     <button class="waves-effect waves-light btn-small red" type="submit">
@@ -111,6 +109,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script th:src="@{/js/main.js}"></script>
+<!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 </html>

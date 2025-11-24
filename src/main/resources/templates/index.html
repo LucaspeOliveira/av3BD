@@ -7,7 +7,8 @@
     <title>MENU</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Original when using Thymeleaf: <link rel="stylesheet" th:href="@{/css/style.css}"> -->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 
 <body>
@@ -29,7 +30,7 @@
     <main class="container section">
         <div class="row">
             <div class="col s12 m8 offset-m2">
-                <div class="card">
+                <div class="card index-actions">
                     <div class="card-content">
                         <span class="card-title">Sistema de Aluguel de Carros</span>
                         <p>Bem-vindo! Escolha uma das opções abaixo para gerenciar o sistema.</p>
@@ -57,7 +58,8 @@
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script th:src="@{/js/main.js}"></script>
+    <!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+    <script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 
 </html>

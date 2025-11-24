@@ -5,6 +5,7 @@
     <title>CRUD Locação</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header>
@@ -24,7 +25,7 @@
     </a>
     <h4>CRUD de Locação</h4>
 
-    <!-- Formulário de inserção -->
+    
     <div class="card">
         <div class="card-content">
             <span class="card-title">Nova locação</span>
@@ -64,7 +65,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!-- Campo oculto para Tanque sempre "cheio" -->
+                
                     <input type="hidden" th:field="*{tanque}" value="cheio">
 
                     <div class="input-field col s12 m6">
@@ -86,7 +87,7 @@
         </div>
     </div>
 
-    <!-- Tabela de locações -->
+    
     <h5>Lista de locações</h5>
     <table class="striped highlight responsive-table">
         <thead>
@@ -103,13 +104,29 @@
         </thead>
         <tbody>
         <tr th:each="l : ${locacoes}">
-            <td th:text="${l.id}"></td>
-            <td th:text="${l.clienteCpf}"></td>
-            <td th:text="${l.carroPlaca}"></td>
-            <td th:text="${l.dataRetirada}"></td>
-            <td th:text="${l.diasAlugado}"></td>
-            <td th:text="${l.dataDevolucao}"></td>
-            <td th:text="${l.valorTotal}"></td>
+            
+            <form th:action="@{/locacoes/update}" method="post">
+                <td>
+                    <input type="hidden" name="id" th:value="${l.id}">
+                    <input type="text" th:value="${l.id}" readonly class="table-input">
+                </td>
+                <td><input type="text" name="clienteCpf" th:value="${l.clienteCpf}"></td>
+                <td><input type="text" name="carroPlaca" th:value="${l.carroPlaca}"></td>
+                <td><input type="date" name="dataRetirada" th:value="${l.dataRetirada}"></td>
+                <td><input type="number" name="diasAlugado" th:value="${l.diasAlugado}"></td>
+                <td><input type="date" name="dataDevolucao" th:value="${l.dataDevolucao}"></td>
+                <td><input type="text" name="valorTotal" th:value="${l.valorTotal}"></td>
+
+                <td>
+                    <button class="waves-effect waves-light btn-small" type="submit">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </td>
+            </form>
+
+            <td style="display:none;"></td>
+
+            
             <td>
                 <form th:action="@{/locacoes/delete}" method="post" style="display:inline;">
                     <input type="hidden" name="id" th:value="${l.id}">
@@ -137,6 +154,8 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const elems = document.querySelectorAll('select');

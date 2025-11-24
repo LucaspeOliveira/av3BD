@@ -6,7 +6,7 @@
     <title>CRUD Carro</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header>
@@ -26,7 +26,7 @@
     </a>
     <h4>CRUD de Carro</h4>
 
-    <!-- Formulário de inserção -->
+    
     <div class="card">
         <div class="card-content">
             <span class="card-title">Inserir novo carro</span>
@@ -99,7 +99,7 @@
     	</a>
 	</div>
 	
-    <!-- Tabela de carros -->
+    
     <h5>Lista de carros</h5>
     <table class="striped highlight responsive-table">
         <thead>
@@ -119,15 +119,15 @@
         </thead>
         <tbody>
         <tr th:each="carro : ${carros}">
-            <!-- Form de update (edição inline) -->
+            
             <form th:action="@{/carros/update}" method="post">
-                <!-- Placa identificador -->
+                
                 <td>
                     <input type="hidden" name="placa" th:value="${carro.placa}">
-                    <span th:text="${carro.placa}"></span>
+                    <input type="text" th:value="${carro.placa}" readonly class="table-input">
                 </td>
 
-                <!-- Campos editáveis -->
+                
                 <td><input type="text" name="modelo" th:value="${carro.modelo}"></td>
                 <td><input type="text" name="marca" th:value="${carro.marca}"></td>
                 <td><input type="text" name="cor" th:value="${carro.cor}"></td>
@@ -137,13 +137,13 @@
                 <td><input type="text" name="cambio" th:value="${carro.cambio}"></td>
                 <td><input type="text" name="status" th:value="${carro.status}"></td>
 
-                <!-- Categoria (texto + id hidden; pode virar select se quiser editar) -->
+                
                 <td>
                     <input type="hidden" name="categoriaId" th:value="${carro.categoriaId}">
                     <span th:text="${carro.categoriaNome}"></span>
                 </td>
 
-                <!-- Ações -->
+                
                 <td>
                     <button class="waves-effect waves-light btn-small" type="submit">
                         <i class="material-icons">edit</i>
@@ -151,8 +151,7 @@
                 </td>
             </form>
 
-            <!-- Form de delete (separado, sem aninhar) -->
-            <td style="display:none;"></td> <!-- placeholder só para manter colunas alinhadas -->
+            <td style="display:none;"></td>
             <td>
                 <form th:action="@{/carros/delete}" method="post" style="display:inline;">
                     <input type="hidden" name="placa" th:value="${carro.placa}">
@@ -183,6 +182,7 @@
         M.FormSelect.init(elems);
     });
 </script>
-<script th:src="@{/js/main.js}"></script>
+<!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 </html>

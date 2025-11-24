@@ -5,6 +5,7 @@
     <title>CRUD Reparo</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header>
@@ -24,7 +25,7 @@
     </a>
     <h4>CRUD de Reparo</h4>
 
-    <!-- Formulário de inserção -->
+    
     <div class="card">
         <div class="card-content">
             <span class="card-title">Novo reparo</span>
@@ -70,7 +71,7 @@
         </div>
     </div>
 
-    <!-- Tabela de reparos -->
+    
     <h5>Lista de reparos</h5>
     <table class="striped highlight responsive-table">
         <thead>
@@ -90,7 +91,7 @@
             <form th:action="@{/reparos/update}" method="post">
                 <td>
                     <input type="hidden" name="id" th:value="${r.id}">
-                    <span th:text="${r.id}"></span>
+                    <input type="text" th:value="${r.id}" readonly class="table-input">
                 </td>
                 <td><input type="text" name="carroPlaca" th:value="${r.carroPlaca}"></td>
                 <td><input type="date" name="dataEntrada" th:value="${r.dataEntrada}"></td>
@@ -131,6 +132,8 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Original when using Thymeleaf: <script th:src="@{/js/main.js}"></script> -->
+<script src="../static/js/main.js" th:src="@{/js/main.js}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const elems = document.querySelectorAll('select');
