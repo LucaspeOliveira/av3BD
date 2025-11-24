@@ -31,16 +31,22 @@
             <form th:action="@{/locacoes/add}" method="post" th:object="${novaLocacao}">
                 <div class="row">
                     <div class="input-field col s12 m6">
+                        <select id="carroSelect" th:field="*{carroPlaca}">
+                            <option value="" disabled selected>Selecione um carro</option>
+                            <option th:each="car : ${carros}" 
+                                    th:value="${car.placa}" 
+                                    th:text="${car.modelo}" 
+                                    th:data-valor="${car.valorDiaria}">
+                            </option>
+                        </select>
+                        <label>Carro</label>
+                    </div>
+                    <div class="input-field col s12 m6">
                         <select th:field="*{clienteCpf}">
+                            <option value="" disabled selected>Selecione um cliente</option>
                             <option th:each="cli : ${clientes}" th:value="${cli.cpf}" th:text="${cli.nome}"></option>
                         </select>
                         <label>Cliente</label>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <select th:field="*{carroPlaca}">
-                            <option th:each="car : ${carros}" th:value="${car.placa}" th:text="${car.modelo}"></option>
-                        </select>
-                        <label>Carro</label>
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +55,7 @@
                         <label>Data Retirada</label>
                     </div>
                     <div class="input-field col s12 m4">
-                        <input type="number" th:field="*{diasAlugado}" required>
+                        <input type="number" th:field="*{diasAlugado}" name="diasAlugado" required>
                         <label>Dias Alugado</label>
                     </div>
                     <div class="input-field col s12 m4">
@@ -58,13 +64,17 @@
                     </div>
                 </div>
                 <div class="row">
+                    <!-- Campo oculto para Tanque sempre "cheio" -->
+                    <input type="hidden" th:field="*{tanque}" value="cheio">
+
                     <div class="input-field col s12 m6">
-                        <input type="text" th:field="*{tanque}" required>
-                        <label>Tanque</label>
+                        <input type="number" step="0.01" th:field="*{valorTotal}" id="valorTotal" required>
+                        <label for="valorTotal">Valor Total</label>
                     </div>
-                    <div class="input-field col s12 m6">
-                        <input type="number" step="0.01" th:field="*{valorTotal}" required>
-                        <label>Valor Total</label>
+                    <div class="col s12 m6">
+                        <button type="button" class="waves-effect waves-light btn" onclick="calcularValorTotal()">
+                            <i class="material-icons left">calculate</i>Calcular
+                        </button>
                     </div>
                 </div>
                 <div class="right-align">
@@ -87,30 +97,20 @@
             <th>Data Retirada</th>
             <th>Dias</th>
             <th>Data Devolução</th>
-            <th>Tanque</th>
             <th>Valor Total</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="l : ${locacoes}">
-            <td colspan="9">
-                <form th:action="@{/locacoes/update}" method="post" class="row">
-                    <input type="hidden" name="id" th:value="${l.id}">
-                    <div class="col s1"><span th:text="${l.id}"></span></div>
-                    <div class="col s2"><input type="text" name="clienteCpf" th:value="${l.clienteCpf}"></div>
-                    <div class="col s2"><input type="text" name="carroPlaca" th:value="${l.carroPlaca}"></div>
-                    <div class="col s2"><input type="date" name="dataRetirada" th:value="${l.dataRetirada}"></div>
-                    <div class="col s1"><input type="number" name="diasAlugado" th:value="${l.diasAlugado}"></div>
-                    <div class="col s2"><input type="date" name="dataDevolucao" th:value="${l.dataDevolucao}"></div>
-                    <div class="col s1"><input type="text" name="tanque" th:value="${l.tanque}"></div>
-                    <div class="col s2"><input type="number" step="0.01" name="valorTotal" th:value="${l.valorTotal}"></div>
-                    <div class="col s1">
-                        <button class="waves-effect waves-light btn-small" type="submit">
-                            <i class="material-icons">edit</i>
-                        </button>
-                    </div>
-                </form>
+            <td th:text="${l.id}"></td>
+            <td th:text="${l.clienteCpf}"></td>
+            <td th:text="${l.carroPlaca}"></td>
+            <td th:text="${l.dataRetirada}"></td>
+            <td th:text="${l.diasAlugado}"></td>
+            <td th:text="${l.dataDevolucao}"></td>
+            <td th:text="${l.valorTotal}"></td>
+            <td>
                 <form th:action="@{/locacoes/delete}" method="post" style="display:inline;">
                     <input type="hidden" name="id" th:value="${l.id}">
                     <button class="waves-effect waves-light btn-small red" type="submit">
@@ -127,7 +127,10 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <span class="white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</span>
+                <span class="white-text">&copy; 
+                    <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> 
+                    Aluguel de Carros
+                </span>
             </div>
         </div>
     </div>
@@ -139,7 +142,27 @@
         const elems = document.querySelectorAll('select');
         M.FormSelect.init(elems);
     });
+
+    function calcularValorTotal() {
+        const carroSelect = document.getElementById("carroSelect");
+        const selectedOption = carroSelect.options[carroSelect.selectedIndex];
+
+        const valorCategoria = selectedOption && selectedOption.getAttribute("data-valor")
+            ? parseFloat(selectedOption.getAttribute("data-valor"))
+            : NaN;
+
+        const diasInput = document.querySelector("[name='diasAlugado']");
+        const diasAlugado = diasInput && diasInput.value
+            ? parseInt(diasInput.value)
+            : NaN;
+
+        if (!isNaN(valorCategoria) && !isNaN(diasAlugado) && diasAlugado > 0) {
+            const valorTotal = valorCategoria * diasAlugado;
+            document.getElementById("valorTotal").value = valorTotal.toFixed(2);
+        } else {
+            alert("Selecione um carro e informe os dias de aluguel.");
+        }
+    }
 </script>
-<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

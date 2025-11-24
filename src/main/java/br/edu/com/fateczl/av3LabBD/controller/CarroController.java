@@ -2,7 +2,6 @@ package br.edu.com.fateczl.av3LabBD.controller;
 
 import br.edu.com.fateczl.av3LabBD.dto.CarroDTO;
 import br.edu.com.fateczl.av3LabBD.dto.CategoriaDTO;
-import br.edu.com.fateczl.av3LabBD.model.Categoria;
 import br.edu.com.fateczl.av3LabBD.service.CarroService;
 import br.edu.com.fateczl.av3LabBD.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

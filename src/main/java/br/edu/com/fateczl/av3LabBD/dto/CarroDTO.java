@@ -13,8 +13,9 @@ public class CarroDTO {
     private String cambio;
     private String status;
 
-    private Long categoriaId;     // usado no formulário
-    private String categoriaNome; // usado na listagem
+    private Long categoriaId;    
+    private String categoriaNome; 
+    private BigDecimal valorDiaria;
 
     // Getters e Setters
     public String getPlaca() { return placa; }
@@ -49,4 +50,7 @@ public class CarroDTO {
 
     public String getCategoriaNome() { return categoriaNome; }
     public void setCategoriaNome(String categoriaNome) { this.categoriaNome = categoriaNome; }
+    
+    public BigDecimal getValorDiaria() { return valorDiaria; }
+    public void setValorDiaria(BigDecimal valorDiaria) { this.valorDiaria = valorDiaria; }
 }

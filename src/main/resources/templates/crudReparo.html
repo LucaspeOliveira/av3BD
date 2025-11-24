@@ -2,53 +2,140 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Reparos</title>
+    <title>CRUD Reparo</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <header>
-        <nav class="blue darken-2"><div class="nav-wrapper container"><a href="#" class="brand-logo">Reparos</a><ul class="right hide-on-med-and-down"><li><a th:href="@{/}">Menu</a></li></ul></div></nav>
-    </header>
+<header>
+    <nav class="blue darken-2">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">Reparos</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a th:href="@{/}">Menu</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-    <main class="container section">
-        <a id="voltar" class="btn-flat blue-text text-darken-2" th:href="@{/}"><i class="material-icons left">arrow_back</i>Voltar</a>
-        <h4>CRUD de Reparos</h4>
+<main class="container section">
+    <a class="btn-flat blue-text text-darken-2" th:href="@{/}">
+        <i class="material-icons left">arrow_back</i>Voltar
+    </a>
+    <h4>CRUD de Reparo</h4>
 
-        <div class="card"><div class="card-content">
-            <div class="row">
-                <div class="input-field col s12 m3"><input id="placa" type="number"><label for="placa" class="active">Placa</label></div>
-                <div class="input-field col s12 m3"><input id="diaEntrada" type="text"><label for="diaEntrada" class="active">Dia da Entrada</label></div>
-                <div class="input-field col s12 m3"><input id="qntsDias" type="number"><label for="qntsDias" class="active">Quantos dias</label></div>
-                <div class="input-field col s12 m3"><input id="valor" type="text"><label for="valor" class="active">Valor</label></div>
-                <div class="input-field col s12"><textarea id="comentario" class="materialize-textarea"></textarea><label for="comentario" class="active">Comentário</label></div>
+    <!-- Formulário de inserção -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Novo reparo</span>
+            <form th:action="@{/reparos/add}" method="post" th:object="${novoReparo}">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <select th:field="*{carroPlaca}">
+                            <option th:each="car : ${carros}" th:value="${car.placa}" th:text="${car.modelo}"></option>
+                        </select>
+                        <label>Carro</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input type="date" th:field="*{dataEntrada}" required>
+                        <label>Data Entrada</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <input type="number" th:field="*{diasReparo}" required>
+                        <label>Dias Reparo</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input type="text" th:field="*{descricao}" required>
+                        <label>Descrição</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input type="number" step="0.01" th:field="*{valorReparo}" required>
+                        <label>Valor Reparo</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <input type="date" th:field="*{dataConclusao}" required>
+                        <label>Data Conclusão</label>
+                    </div>
+                </div>
+                <div class="right-align">
+                    <button class="waves-effect waves-light btn" type="submit">
+                        <i class="material-icons left">add</i>Inserir
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabela de reparos -->
+    <h5>Lista de reparos</h5>
+    <table class="striped highlight responsive-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Carro</th>
+            <th>Data Entrada</th>
+            <th>Dias</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data Conclusão</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${reparos}">
+            <form th:action="@{/reparos/update}" method="post">
+                <td>
+                    <input type="hidden" name="id" th:value="${r.id}">
+                    <span th:text="${r.id}"></span>
+                </td>
+                <td><input type="text" name="carroPlaca" th:value="${r.carroPlaca}"></td>
+                <td><input type="date" name="dataEntrada" th:value="${r.dataEntrada}"></td>
+                <td><input type="number" name="diasReparo" th:value="${r.diasReparo}"></td>
+                <td><input type="text" name="descricao" th:value="${r.descricao}"></td>
+                <td><input type="number" step="0.01" name="valorReparo" th:value="${r.valorReparo}"></td>
+                <td><input type="date" name="dataConclusao" th:value="${r.dataConclusao}"></td>
+                <td>
+                    <button class="waves-effect waves-light btn-small" type="submit">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </td>
+            </form>
+            <td>
+                <form th:action="@{/reparos/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${r.id}">
+                    <button class="waves-effect waves-light btn-small red" type="submit">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer class="page-footer blue darken-2">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <span class="white-text">&copy; 
+                    <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> 
+                    Aluguel de Carros
+                </span>
             </div>
-            <div class="right-align">
-                <button id="Inserir" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Inserir</button>
-                <button id="editar" class="waves-effect waves-light btn">Editar</button>
-                <button id="adicionar" class="waves-effect waves-light btn">Adicionar</button>
-                <button id="remover" class="waves-effect waves-light btn red">Remover</button>
-            </div>
-        </div></div>
+        </div>
+    </div>
+</footer>
 
-        <table class="striped highlight responsive-table">
-            <thead>
-                <tr>
-                    <th>Placa</th>
-                    <th>Dia da Entrada</th>
-                    <th>Quantos dias</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
-            <tbody id="crud-reparos"></tbody>
-        </table>
-    </main>
-
-    <footer class="page-footer blue darken-2"><div class="container"><div class="row"><div class="col s12 white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</div></div></div></footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script th:src="@{/js/main.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
+    });
+</script>
 </body>
 </html>
