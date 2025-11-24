@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Careca</title>
-    <link rel="stylesheet" href="stlye.css">
+    <title>MENU</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 
 <body>
     <h1>Sistema aluguel de carro</h1>
-    <button class="btn">CRUD carro</button>
+    <button class="btn" th:onclick="|window.location.href='@{/carros}'|">CRUD carro</button>
     <button class="btn">CRUD contrato</button>
     <button class="btn">CRUD pessoa</button>
     <button class="btn">CRUD categoria</button>

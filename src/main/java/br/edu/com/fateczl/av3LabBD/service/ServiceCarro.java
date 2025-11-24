@@ -1,23 +1,45 @@
 package br.edu.com.fateczl.av3LabBD.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import br.edu.com.fateczl.av3LabBD.dto.DTOCarro;
 import br.edu.com.fateczl.av3LabBD.model.Carro;
+import br.edu.com.fateczl.av3LabBD.model.Categoria;
 import br.edu.com.fateczl.av3LabBD.repository.RepositoryCarro;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+import br.edu.com.fateczl.av3LabBD.repository.RepositoryCategoria;
 
 @Service
 public class ServiceCarro {
 
-    @Autowired
-    private RepositoryCarro carroRepository;
+    private final RepositoryCarro carroRepository;
+    private final RepositoryCategoria categoriaRepository;
 
-    // CREATE
-    @Transactional
-    public String inserirCarro(DTOCarro dto) {
+    public ServiceCarro(RepositoryCarro carroRepository, RepositoryCategoria categoriaRepository) {
+        this.carroRepository = carroRepository;
+        this.categoriaRepository = categoriaRepository;
+    }
+
+    // Conversão: Carro -> DTOCarro
+    private DTOCarro toDTO(Carro carro) {
+        DTOCarro dto = new DTOCarro();
+        dto.setPlaca(carro.getPlaca());
+        dto.setMarca(carro.getMarca());
+        dto.setModelo(carro.getModelo());
+        dto.setStatus(carro.getStatus());
+        dto.setAno(carro.getAno());
+        dto.setCor(carro.getCor());
+        dto.setCombustivel(carro.getCombustivel());
+        dto.setKmRodando(carro.getKmRodando());
+        dto.setCambio(carro.getCambio());
+        dto.setCategoriaId(carro.getCategoria() != null ? carro.getCategoria().getId() : null);
+        return dto;
+    }
+
+    // Conversão: DTOCarro -> Carro
+    private Carro toEntity(DTOCarro dto) {
         Carro carro = new Carro();
         carro.setPlaca(dto.getPlaca());
         carro.setMarca(dto.getMarca());
@@ -25,100 +47,50 @@ public class ServiceCarro {
         carro.setStatus(dto.getStatus());
         carro.setAno(dto.getAno());
         carro.setCor(dto.getCor());
-        carro.setCambio(dto.getCambio());
         carro.setCombustivel(dto.getCombustivel());
         carro.setKmRodando(dto.getKmRodando());
-        carro.setCategoriaId(dto.getCategoriaId());
+        carro.setCambio(dto.getCambio());
 
-        carroRepository.save(carro);
-        return "Carro foi inserido com sucesso!";
+        if (dto.getCategoriaId() != 0) {
+            Categoria categoria = categoriaRepository.findById(dto.getCategoriaId()).orElse(null);
+            carro.setCategoria(categoria);
+        }
+
+        return carro;
     }
 
-    // READ
-    public DTOCarro buscarCarroPorPlaca(String placa) {
-        Carro carro = carroRepository.findById(placa).orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar o carro"));
-
-        return new DTOCarro(
-                carro.getPlaca(),
-                carro.getMarca(),
-                carro.getModelo(),
-                carro.getStatus(),
-                carro.getAno(),
-                carro.getCor(),
-                carro.getCombustivel(),
-                carro.getKmRodando(),
-                carro.getCambio(),
-                carro.getCategoriaId()
-        );
-    }
-
-    // UPDATE
-    @Transactional
-    public String atualizarCarro(DTOCarro dto) {
-        Carro carro = carroRepository.findById(dto.getPlaca()).orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar o carro"));
-
-        if (dto.getCategoriaId() != null) carro.setCategoriaId(dto.getCategoriaId());
-        if (dto.getMarca() != null) carro.setMarca(dto.getMarca());
-        if (dto.getModelo() != null) carro.setModelo(dto.getModelo());
-        if (dto.getAno() != 0) carro.setAno(dto.getAno());
-        if (dto.getCor() != null) carro.setCor(dto.getCor());
-        if (dto.getCombustivel() != null) carro.setCombustivel(dto.getCombustivel());
-        if (dto.getKmRodando() != 0) carro.setKmRodando(dto.getKmRodando());
-        if (dto.getCambio() != null) carro.setCambio(dto.getCambio());
-        if (dto.getStatus() != null) carro.setStatus(dto.getStatus());
-        
-        carroRepository.save(carro);
-        return "Carro modificado com sucesso!";
-    }
-
-    // DELETE
-    @Transactional
-    public String deletarCarro(String placa) {
-        carroRepository.deleteById(placa);
-        return "Carro deletado com sucesso!";
-    }
-
-    // LISTAR TODOS
+    // Listar todos os carros (DTO)
     public List<DTOCarro> listarTodosCarros() {
-        List<Carro> listaEntidades = carroRepository.findAll();
-        List<DTOCarro> resposta = new ArrayList<>();
-
-        for (Carro c : listaEntidades) {
-            resposta.add(new DTOCarro(
-            		c.getPlaca(),
-                    c.getMarca(),
-                    c.getModelo(),
-                    c.getStatus(),
-                    c.getAno(),
-                    c.getCor(),
-                    c.getCombustivel(),
-                    c.getKmRodando(),
-                    c.getCambio(),
-                    c.getCategoriaId()
-            ));
-        }
-        return resposta;
+        return carroRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
-    // READ por categoria
-    public List<DTOCarro> listarCarrosPorCategoria(Long categoriaId) {
-        List<Carro> lista = carroRepository.listarCarrosPorCategoria(categoriaId);
-        List<DTOCarro> resposta = new ArrayList<>();
+    // Salvar carro a partir de DTO
+    public DTOCarro salvar(DTOCarro dto) {
+        Carro carro = toEntity(dto);
+        Carro salvo = carroRepository.save(carro);
+        return toDTO(salvo);
+    }
 
-        for (Carro c : lista) {
-            resposta.add(new DTOCarro(
-            		c.getPlaca(),
-                    c.getMarca(),
-                    c.getModelo(),
-                    c.getStatus(),
-                    c.getAno(),
-                    c.getCor(),
-                    c.getCombustivel(),
-                    c.getKmRodando(),
-                    c.getCambio(),
-                    c.getCategoriaId()
-            ));
-        }
-        return resposta;
+    // Remover carro pela placa
+    public void remover(String placa) {
+        carroRepository.deleteById(placa);
+    }
+
+    // Buscar carro por placa
+    public DTOCarro buscarPorPlaca(String placa) {
+        return carroRepository.findById(placa)
+                .map(this::toDTO)
+                .orElse(null);
+    }
+    
+    public List<DTOCarro> listarCarrosDisponiveis() {
+        return carroRepository.findAll()
+                .stream()
+                .filter(c -> "DISPONIVEL".equalsIgnoreCase(c.getStatus()))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 }

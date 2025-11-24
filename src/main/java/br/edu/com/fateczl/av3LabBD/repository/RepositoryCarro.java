@@ -11,7 +11,7 @@ import java.util.List;
 public interface RepositoryCarro extends JpaRepository<Carro, String>{
 	
 	// UDF com cursor para listar disponíveis
-	@Query(value = "SELECT * FROM dbo.fn.ListarCarrosDisponiveis()", nativeQuery = true)
+	@Query(value = "SELECT * FROM dbo.fn_ListarCarrosDisponiveis()", nativeQuery = true)
 	List<Carro> listarCarrosDisponiveis();
 	
 	// Fazer busca por categoria

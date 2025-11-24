@@ -1,35 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD Carros</title>
-    <link rel="stylesheet" href="stlye.css">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-    <button id="voltar" class="btn-voltar">↩</button>
+    <button id="voltar" class="btn-voltar" th:onclick="|window.location.href='@{/}'|">↩</button>
     <h1>CRUD de Carros</h1>
 
-    <div class="form">
-        <input type="text" id="placa" placeholder="Placa">
-        <input type="text" id="marca" placeholder="Marca">
-        <input type="text" id="modelo" placeholder="Modelo">
-        <input type="number" id="ano" placeholder="Ano">
-        <input type="text" id="cor" placeholder="Cor">
-        <input type="text" id="categoria" placeholder="Categoria">
-        <input type="text" id="combustivel" placeholder="Combustível">
-        <input type="text" id="km" placeholder="Quilometragem">
-        <input type="text" id="cambio" placeholder="Cambio">
-        <input type="text" id="status" placeholder="Status">
-    </div>
+    <!-- Formulário de Inserção -->
+    <h2>Inserir novo carro</h2>
+    <form th:action="@{/carros/add}" method="post" th:object="${novoCarro}">
+        <input type="text" th:field="*{placa}" placeholder="Placa" required>
+        <input type="text" th:field="*{marca}" placeholder="Marca" required>
+        <input type="text" th:field="*{modelo}" placeholder="Modelo" required>
+        <input type="number" th:field="*{ano}" placeholder="Ano" required>
+        <input type="text" th:field="*{cor}" placeholder="Cor" required>
+        
+        <select th:field="*{categoriaId}">
+    		<option th:each="cat : ${categorias}" 
+            	th:value="${cat.id}" 
+            	th:text="${cat.nome}">
+    		</option>
+		</select>
+
+        <input type="text" th:field="*{combustivel}" placeholder="Combustível" required>
+        <input type="text" th:field="*{kmRodando}" placeholder="Quilometragem" required>
+        <input type="text" th:field="*{cambio}" placeholder="Cambio" required>
+        <input type="text" th:field="*{status}" placeholder="Status" required>
+        <button type="submit">Inserir</button>
+    </form>
+
+    <!-- Botões de Ação -->
     <div class="acao">
-        <button onclick="inserirCarro()">Inserir</button>
-        <button id="editar">Editar</button>
-        <button id="adicionar">Adicionar</button>
-        <button id="remover">Remover</button>
-        <button id="lista-dispo">Lista disponível</button>
+        <form th:action="@{/carros}" method="get">
+            <button type="submit">Listar todos</button>
+        </form>
+
+        <form th:action="@{/carros/disponiveis}" method="get">
+    		<button type="submit">Listar disponíveis</button>
+		</form>
     </div>
 
+    <!-- Tabela de Carros -->
+    <h2>Lista de carros</h2>
     <table>
         <thead>
             <tr>
@@ -43,12 +58,36 @@
                 <th>Cambio</th>
                 <th>Status</th>
                 <th>Combustível</th>
+                <th>Ações</th>
             </tr>
         </thead>
-        <tbody id="tabela-carros">
+        <tbody>
+            <tr th:each="carro : ${carros}">
+                <td th:text="${carro.placa}"></td>
+                <td th:text="${carro.marca}"></td>
+                <td th:text="${carro.modelo}"></td>
+                <td th:text="${carro.ano}"></td>
+                <td th:text="${carro.cor}"></td>
+                <td th:text="${carro.categoria.nome}"></td>
+                <td th:text="${carro.kmRodando}"></td>
+                <td th:text="${carro.cambio}"></td>
+                <td th:text="${carro.status}"></td>
+                <td th:text="${carro.combustivel}"></td>
+                <td>
+                    <!-- Botão Editar -->
+                    <form th:action="@{/carros/update}" method="post" th:object="${carro}">
+                        <input type="hidden" th:field="*{placa}">
+                        <button type="submit">Editar</button>
+                    </form>
 
+                    <!-- Botão Remover -->
+                    <form th:action="@{/carros/delete}" method="post">
+                        <input type="hidden" name="placa" th:value="${carro.placa}">
+                        <button type="submit">Remover</button>
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <script src="script.js"></script>
 </body>
 </html>

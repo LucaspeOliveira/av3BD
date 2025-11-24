@@ -6,15 +6,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_carros")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Carro {
 
     @Id
-    private String placa; // chave primária da tabela
+    @Column(length = 10) 
+    private String placa;
 
     @Column(nullable = false)
     private String marca;
@@ -42,6 +47,6 @@ public class Carro {
 
     @ManyToOne
     @JoinColumn(name = "categoriaId", nullable = false)
-    private Categoria categoriaId; // relacionamento com tabela de categorias
+    private Categoria categoria; // relacionamento com tabela de categorias
 }
     
