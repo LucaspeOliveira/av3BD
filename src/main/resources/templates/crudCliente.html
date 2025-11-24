@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Cliente</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <nav class="blue darken-2">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">Clientes</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a th:href="@{/}">Menu</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="container section">
+    <a class="btn-flat blue-text text-darken-2" th:href="@{/}">
+        <i class="material-icons left">arrow_back</i>Voltar
+    </a>
+    <h4>CRUD de Cliente</h4>
+
+    <!-- Formulário de inserção -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Inserir novo cliente</span>
+            <form th:action="@{/clientes/add}" method="post" th:object="${novoCliente}">
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <input id="cpf" type="text" th:field="*{cpf}" required>
+                        <label for="cpf">CPF</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input id="nome" type="text" th:field="*{nome}" required>
+                        <label for="nome">Nome</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input id="numeroHabilitacao" type="text" th:field="*{numeroHabilitacao}" required>
+                        <label for="numeroHabilitacao">Nº Habilitação</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <input id="dataNascimento" type="date" th:field="*{dataNascimento}" required>
+                        <label for="dataNascimento">Data de Nascimento</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input id="logradouro" type="text" th:field="*{logradouro}" required>
+                        <label for="logradouro">Logradouro</label>
+                    </div>
+                    <div class="input-field col s12 m2">
+                        <input id="numero" type="number" th:field="*{numero}" required>
+                        <label for="numero">Número</label>
+                    </div>
+                    <div class="input-field col s12 m2">
+                        <input id="cep" type="text" th:field="*{cep}" required>
+                        <label for="cep">CEP</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <input id="cidade" type="text" th:field="*{cidade}" required>
+                        <label for="cidade">Cidade</label>
+                    </div>
+                </div>
+
+                <div class="right-align">
+                    <button class="waves-effect waves-light btn" type="submit">
+                        <i class="material-icons left">add</i>Inserir
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabela de clientes -->
+    <h5>Lista de clientes</h5>
+    <table class="striped highlight responsive-table">
+        <thead>
+        <tr>
+            <th>CPF</th>
+            <th>Nome</th>
+            <th>Nº Habilitação</th>
+            <th>Data Nasc.</th>
+            <th>Logradouro</th>
+            <th>Número</th>
+            <th>CEP</th>
+            <th>Cidade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cli : ${clientes}">
+            <form th:action="@{/clientes/update}" method="post">
+                <!-- CPF como identificador -->
+                <td>
+                    <input type="hidden" name="cpf" th:value="${cli.cpf}">
+                    <span th:text="${cli.cpf}"></span>
+                </td>
+
+                <!-- Campos editáveis -->
+                <td><input type="text" name="nome" th:value="${cli.nome}"></td>
+                <td><input type="text" name="numeroHabilitacao" th:value="${cli.numeroHabilitacao}"></td>
+                <td><input type="date" name="dataNascimento" th:value="${cli.dataNascimento}"></td>
+                <td><input type="text" name="logradouro" th:value="${cli.logradouro}"></td>
+                <td><input type="number" name="numero" th:value="${cli.numero}"></td>
+                <td><input type="text" name="cep" th:value="${cli.cep}"></td>
+                <td><input type="text" name="cidade" th:value="${cli.cidade}"></td>
+
+                <!-- Botões -->
+                <td>
+                    <button class="waves-effect waves-light btn-small" type="submit">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </td>
+            </form>
+
+            <!-- Botão de remover -->
+            <td>
+                <form th:action="@{/clientes/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="cpf" th:value="${cli.cpf}">
+                    <button class="waves-effect waves-light btn-small red" type="submit">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer class="page-footer blue darken-2">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <span class="white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
