@@ -3,181 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Carros</title>
+    <title>CRUD Carro</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <header>
-        <nav class="blue darken-2">
-            <div class="nav-wrapper container">
-                <a href="#" class="brand-logo">Carros</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a th:href="@{/}">Menu</a></li>
-                    <li><a th:href="@{/categoria}">Categorias</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+<header>
+    <nav class="blue darken-2">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">Carros</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a th:href="@{/}">Menu</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-    <main class="container section">
+<main class="container section">
+    <a class="btn-flat blue-text text-darken-2" th:href="@{/}">
+        <i class="material-icons left">arrow_back</i>Voltar
+    </a>
+    <h4>CRUD de Carro</h4>
+
+    <!-- Formulário de inserção -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Inserir novo carro</span>
+            <form th:action="@{/carros/add}" method="post" th:object="${novoCarro}">
+                <div class="row">
+                    <div class="input-field col s12 m3">
+                        <input id="placa" type="text" th:field="*{placa}" required>
+                        <label for="placa">Placa</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="modelo" type="text" th:field="*{modelo}" required>
+                        <label for="modelo">Modelo</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="marca" type="text" th:field="*{marca}" required>
+                        <label for="marca">Marca</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="cor" type="text" th:field="*{cor}" required>
+                        <label for="cor">Cor</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12 m3">
+                        <input id="kmRodados" type="number" step="0.1" th:field="*{kmRodados}" required>
+                        <label for="kmRodados">Km rodados</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="ano" type="number" min="1900" max="2100" th:field="*{ano}" required>
+                        <label for="ano">Ano</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="combustivel" type="text" th:field="*{combustivel}" required>
+                        <label for="combustivel">Combustível</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="cambio" type="text" th:field="*{cambio}" required>
+                        <label for="cambio">Câmbio</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <select th:field="*{categoriaId}">
+                            <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nome}"></option>
+                        </select>
+                        <label>Categoria</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input id="status" type="text" th:field="*{status}" required>
+                        <label for="status">Status</label>
+                    </div>
+                </div>
+
+                <div class="right-align">
+                    <button class="waves-effect waves-light btn" type="submit">
+                        <i class="material-icons left">add</i>Inserir
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+	<div class="right-align" style="margin-bottom: 20px;">
+    	<a class="waves-effect waves-light btn blue" th:href="@{/carros/all}">
+        <i class="material-icons left">list</i>Listar Todos
+    	</a>
+    	<a class="waves-effect waves-light btn green" th:href="@{/carros/disponiveis}">
+        <i class="material-icons left">check_circle</i>Listar Disponíveis
+    	</a>
+	</div>
+	
+    <!-- Tabela de carros -->
+    <h5>Lista de carros</h5>
+    <table class="striped highlight responsive-table">
+        <thead>
+        <tr>
+            <th>Placa</th>
+            <th>Modelo</th>
+            <th>Marca</th>
+            <th>Cor</th>
+            <th>Km</th>
+            <th>Ano</th>
+            <th>Combustível</th>
+            <th>Câmbio</th>
+            <th>Status</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="carro : ${carros}">
+            <!-- Form de update (edição inline) -->
+            <form th:action="@{/carros/update}" method="post">
+                <!-- Placa identificador -->
+                <td>
+                    <input type="hidden" name="placa" th:value="${carro.placa}">
+                    <span th:text="${carro.placa}"></span>
+                </td>
+
+                <!-- Campos editáveis -->
+                <td><input type="text" name="modelo" th:value="${carro.modelo}"></td>
+                <td><input type="text" name="marca" th:value="${carro.marca}"></td>
+                <td><input type="text" name="cor" th:value="${carro.cor}"></td>
+                <td><input type="number" step="0.1" name="kmRodados" th:value="${carro.kmRodados}"></td>
+                <td><input type="number" min="1900" max="2100" name="ano" th:value="${carro.ano}"></td>
+                <td><input type="text" name="combustivel" th:value="${carro.combustivel}"></td>
+                <td><input type="text" name="cambio" th:value="${carro.cambio}"></td>
+                <td><input type="text" name="status" th:value="${carro.status}"></td>
+
+                <!-- Categoria (texto + id hidden; pode virar select se quiser editar) -->
+                <td>
+                    <input type="hidden" name="categoriaId" th:value="${carro.categoriaId}">
+                    <span th:text="${carro.categoriaNome}"></span>
+                </td>
+
+                <!-- Ações -->
+                <td>
+                    <button class="waves-effect waves-light btn-small" type="submit">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </td>
+            </form>
+
+            <!-- Form de delete (separado, sem aninhar) -->
+            <td style="display:none;"></td> <!-- placeholder só para manter colunas alinhadas -->
+            <td>
+                <form th:action="@{/carros/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="placa" th:value="${carro.placa}">
+                    <button class="waves-effect waves-light btn-small red" type="submit">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer class="page-footer blue darken-2">
+    <div class="container">
         <div class="row">
             <div class="col s12">
-                <a id="voltar" class="btn-flat blue-text text-darken-2" th:href="@{/}"><i class="material-icons left">arrow_back</i>Voltar</a>
-                <h4>CRUD de Carros</h4>
-
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Inserir novo carro</span>
-                        <form th:action="@{/carros/add}" method="post" th:object="${novoCarro}">
-                            <div class="row">
-                                <div class="input-field col s12 m6">
-                                    <input id="placa" type="text" th:field="*{placa}" class="validate" required>
-                                    <label for="placa">Placa</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="marca" type="text" th:field="*{marca}" class="validate" required>
-                                    <label for="marca">Marca</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="modelo" type="text" th:field="*{modelo}" class="validate" required>
-                                    <label for="modelo">Modelo</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="ano" type="number" th:field="*{ano}" class="validate" required>
-                                    <label for="ano">Ano</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="cor" type="text" th:field="*{cor}" class="validate" required>
-                                    <label for="cor">Cor</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('cor')}" th:errors="*{cor}"></span>
-                                </div>
-
-                                <div class="input-field col s12 m6">
-                                    <select id="categoriaId" th:field="*{categoriaId}">
-                                        <option value="" disabled selected>Escolha a categoria</option>
-                                        <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nome}"></option>
-                                    </select>
-                                    <label for="categoriaId">Categoria</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('categoriaId')}" th:errors="*{categoriaId}"></span>
-                                </div>
-
-                                <div class="input-field col s12 m6">
-                                    <input id="combustivel" type="text" th:field="*{combustivel}" class="validate" required>
-                                    <label for="combustivel">Combustível</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('combustivel')}" th:errors="*{combustivel}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="kmRodados" type="number" step="0.1" min="0" th:field="*{kmRodados}" class="validate" required>
-                                    <label for="kmRodados">Quilometragem</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('kmRodados')}" th:errors="*{kmRodado}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="cambio" type="text" th:field="*{cambio}" class="validate" required>
-                                    <label for="cambio">Câmbio</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('cambio')}" th:errors="*{cambio}"></span>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input id="status" type="text" th:field="*{status}" class="validate" required>
-                                    <label for="status">Status</label>
-                                    <span class="helper-text red-text" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
-                                </div>
-                            </div>
-                            <div class="right-align">
-                                <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">add</i>Inserir</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Ações</span>
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <form th:action="@{/carros}" method="get">
-                                    <button class="waves-effect waves-light btn" type="submit">Listar todos</button>
-                                </form>
-                            </div>
-                            <div class="col s12 m6">
-                                <form th:action="@{/carros/disponiveis}" method="get">
-                                    <button class="waves-effect waves-light btn" type="submit">Listar disponíveis</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h5>Lista de carros</h5>
-                <table class="striped highlight responsive-table">
-                    <thead>
-                        <tr>
-                            <th>Placa</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Ano</th>
-                            <th>Cor</th>
-                            <th>Categoria</th>
-                            <th>Quilometragem</th>
-                            <th>Câmbio</th>
-                            <th>Status</th>
-                            <th>Combustível</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="carro : ${carros}">
-                            <td th:text="${carro.placa}"></td>
-                            <td th:text="${carro.marca}"></td>
-                            <td th:text="${carro.modelo}"></td>
-                            <td th:text="${carro.ano}"></td>
-                            <td th:text="${carro.cor}"></td>
-                            <td th:text="${carro.categoriaNome}"></td>
-                            <td th:text="${carro.kmRodados}"></td>
-                            <td th:text="${carro.cambio}"></td>
-                            <td th:text="${carro.status}"></td>
-                            <td th:text="${carro.combustivel}"></td>
-                            <td>
-                                <div class="row">
-                                    <div class="col s6">
-                                    	<form th:action="@{/carros/update}" method="post">
-    										<input type="hidden" name="placa" th:value="${carro.placa}">
-    										<button class="waves-effect waves-light btn-small" type="submit">
-        									<i class="material-icons">edit</i>
-    										</button>
-										</form>
-                                    </div>
-                                    <div class="col s6">
-                                        <form th:action="@{/carros/delete}" method="post">
-                                            <input type="hidden" name="placa" th:value="${carro.placa}">
-                                            <button class="waves-effect waves-light btn-small red" type="submit"><i class="material-icons">delete</i></button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <span class="white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</span>
             </div>
         </div>
-    </main>
+    </div>
+</footer>
 
-    <footer class="page-footer blue darken-2">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <span class="white-text">&copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}"></span> Aluguel de Carros</span>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script th:src="@{/js/main.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
+    });
+</script>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>
